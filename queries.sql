@@ -1,51 +1,138 @@
--- loggin in
--- sql user username (root create by default)
+/* logging in */
+/* the root account has been created by default */
 mysql -u root
 
--- see all databases
+/* see all databases */
 show databases;
 
--- create database
+/* create a database */
 create database swimming;
 
--- switch database
+/* switch database */
 use swimming;
 
--- show tables
+/* show all tables */
 show tables;
 
--- create table
+/* see all the rows in a table */
+select * from Parents;
+
+/* show value types in row*/
+describe venues; 
+
+/* add a new column to an existing table */
+alter table Students add gender varchar(1) not null;
+
+/* rename a column */
+alter table Students rename column surname to last_name;
+alter table Students rename column given_name to first_name;
+
+/* modify the definition of a column */
+alter table Students modify gender varchar(1);
+
+/* assume we have a table named `Fake` and we want to drop it */
+drop table Fake;
+
+/* create table */
 create table Parents (
-    --unsigned = no negative numbers
     parent_id int unsigned auto_increment primary key,
-    -- null = cannot be null/ empty
-    sur_name varchar(50) not null,
+    surname varchar(50) not null,
     given_name varchar(50) not null,
-    email varchar(250) not null
-
-) engine=innodb; -- reinforce forign keys
-
--- adding many rows 
-insert into Parents (sur_name, given_name, email)
-    values('Tan','Ryan','itsnayr.t@gmail.com'),
-          ('','','');
-
--- see all rows in table
-select * from Parents
-
--- show all details about each rows
-describe venues;
--------------------------------------------
-create table Venues (
-    venue_id int unsigned auto_increment primary key,
-    address varchar(500) not null,
+    email varchar(350) not null
 ) engine=innodb;
 
-insert into Certificates (title)
-    values('Intermediate'),
-        ('Advance'),
-        ('Lifesaving')
+/* insert one row into the table */
+insert into Parents (surname, given_name, email)
+    values ('Phua', 'Chua Kang', 'chukang@phua.com.sg');
 
-insert into Venues(address)
-    values('Yishun Ave 4'),
-        ('Ang Mo Kio Ave 1')
+insert into Parents (surname, given_name, email)
+ values ('Lim', 'Megan', 'meganlim@fake.com.sg');
+
+
+
+create table Certificates (
+    certificate_id int unsigned auto_increment primary key,
+    title varchar(100) not null
+) engine=innodb;
+
+insert into Certificates (title) 
+    values ('Basic Swimming'),
+           ('Basic Lifesaving'),
+           ('Advanced Lifesaving');
+
+create table Venues (
+    venue_id tinyint unsigned auto_increment primary key,
+    `name` varchar(100)  not null,
+    `address` varchar(500) not null
+) engine=innodb;
+
+insert into Venues (`name`, address) values
+    ('Yishun Swimming Complex', 'Yishun Ave 4'),
+    ('Ang Mio Ko Swimming Complex', 'Ang Mio Kio Ave 1');
+
+
+
+/* Foreign keys */
+
+create table Students (
+    student_id int unsigned auto_increment primary key,
+    surname varchar(100) not null,
+    given_name varchar(100) not null,
+    date_of_birth date not null,
+    parent_id int unsigned not null,
+    foreign key(parent_id) references Parents(parent_id)
+) engine=innodb;
+
+insert into Students (surname, given_name, date_of_birth, parent_id)
+   values ('Phua', 'Anthony', '1990-06-21', 1);
+
+insert into Students (surname, given_name, date_of_birth, parent_id)
+   values ('Lim', 'Mary', '1999-06-21', 5);
+
+insert into Students (surname, given_name, date_of_birth, parent_id)
+   values ('Sue', 'Mary', '1999-06-21', 100);
+
+create table Sessions (
+    session_id int unsigned auto_increment primary key,
+    session_date datetime not null,
+    venue_id tinyint unsigned,
+    foreign key(venue_id) references Venues(venue_id) on delete cascade
+) engine=innodb;
+
+create table CertificateStudent (
+    certificate_student_id int unsigned auto_increment primary key,
+    student_id int unsigned,
+    certificate_id int unsigned,
+    award_date date not null,
+    foreign key (student_id) references Students(student_id),
+    foreign key (certificate_id) references Certificates(certificate_id)
+) engine = innodb;
+
+insert into CertificateStudent (student_id, certificate_id, award_date)
+  values (2, 1, '2021-01-21');
+
+/* to create a new row, we use insert */
+
+-- CRUD
+/* to delete a row, we use DELETE FROM */
+delete from Parents where parent_id = 3;
+
+/* to modify a row, we use UPDATE */
+update Students set first_name = "Susan" where student_id = 2;
+
+/* the following will not work because of foreign key constraints */
+update Students set parent_id = 100 where student_id = 2;
+
+/* Add in a foreign key after a table has been created */
+create table Coaches(
+    coach_id tinyint unsigned auto_increment primary key,
+    `name` varchar(100) not null
+) engine=innodb;
+
+
+/* 1. add in the new column to the Sessions table */
+alter table Sessions add coach_id tinyint unsigned not null;
+
+/* 2. add in foreign key definition */
+alter table Sessions add foreign key(coach_id) 
+    references Coaches(coach_id);
