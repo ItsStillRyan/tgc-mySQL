@@ -136,3 +136,7 @@ alter table Sessions add coach_id tinyint unsigned not null;
 /* 2. add in foreign key definition */
 alter table Sessions add foreign key(coach_id) 
     references Coaches(coach_id);
+
+
+
+    
