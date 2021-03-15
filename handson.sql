@@ -35,12 +35,30 @@ ON offices.officeCode = employees.officeCode
 WHERE offices.country = "USA"
 GROUP BY state
 -- 8
-
+SELECT customers.customerName, avg(amount) FROM payments
+JOIN customers
+on payments.customerNumber = customers.customerNumber
+GROUP BY customers.customerName
 -- 9
+SELECT customers.customerName, avg(amount) FROM payments
+JOIN customers
+on payments.customerNumber = customers.customerNumber
+WHERE amount > 10000
+GROUP BY customers.customerName
 -- 10
+SELECT sum(quantityOrdered), productName FROM products
+JOIN orderdetails
+ON products.productCode = orderdetails.productCode
+GROUP BY productName
+ORDER BY sum(quantityOrdered) desc
+LIMIT 10
 -- 11
+SELECT count(orderNumber) FROM orders
+WHERE YEAR(orderDate) = 2003
 -- 12
-
+SELECT MONTH(orderDate) as Months, count(orderNumber) FROM orders
+WHERE YEAR(orderDate) = 2003
+GROUP BY MONTH(orderDate)
 
 _____________________---
 -- date --
