@@ -1,0 +1,59 @@
+{{#extends 'base'}}
+{{#block 'content'}}
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Release Year</th>
+            <th>Original Language</th>
+            <th>Language Dubbed</th>
+            <th>Rental Duration</th>
+            <th>Rental Rate</th>
+            <th>Length</th>
+            <th>Replacement Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each film}}
+        <tr>
+            <td>
+                {{this.film_id}}
+            </td>
+             <td>
+                {{this.title}}
+            </td>
+            <td>
+                {{this.description}}
+            </td>
+            <td>
+                {{this.release_year}}
+            </td>
+
+            <td>
+                {{this.language}}
+            </td>
+            <td>
+                {{this.rental_duration}}
+            </td>
+            <td>
+                {{this.rental_rate}}
+            </td>
+            <td>
+                {{this.length}}
+            </td>
+            <td>
+                {{this.replacement_cost}}
+            </td>
+            <td>
+                <a href="/films/{{this.film_id}}/update" class="btn btn-primary btn-sm">Update</a>
+
+                <a href="/films/{{this.film_id}}/delete" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{/block}}
+{{/extends}}

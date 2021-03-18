@@ -1,0 +1,27 @@
+{
+  "name": "tgc-mysql",
+  "version": "1.0.0",
+  "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsStillRyan/tgc-mySQL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItsStillRyan/tgc-mySQL/issues"
+  },
+  "homepage": "https://github.com/ItsStillRyan/tgc-mySQL#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "handlebars-helper": "^0.0.12",
+    "handlebars-helpers": "^0.10.0",
+    "hbs": "^4.1.1",
+    "mysql2": "^2.2.5",
+    "wax-on": "^1.2.2"
+  }
+}
