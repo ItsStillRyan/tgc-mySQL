@@ -35,25 +35,24 @@ ON offices.officeCode = employees.officeCode
 WHERE offices.country = "USA"
 GROUP BY state
 -- 8
-SELECT customers.customerName, avg(amount) FROM payments
+SELECT customers.customerName, customers.customerNumber, avg(amount) FROM payments
 JOIN customers
 on payments.customerNumber = customers.customerNumber
-GROUP BY customers.customerName
+GROUP BY customers.customerName, customers.customerNumber
 -- 9
 SELECT customers.customerName, avg(amount) FROM payments
 JOIN customers
 on payments.customerNumber = customers.customerNumber
-WHERE amount > 10000
 GROUP BY customers.customerName
+HAVING avg(amount) > 10000
 -- 10
-SELECT sum(quantityOrdered), productName FROM products
-JOIN orderdetails
-ON products.productCode = orderdetails.productCode
-GROUP BY productName
-ORDER BY sum(quantityOrdered) desc
+SELECT count(*) AS count, productCode 
+FROM orderdetails
+GROUP BY productCode
+ORDER BY count(*) desc
 LIMIT 10
 -- 11
-SELECT count(orderNumber) FROM orders
+SELECT * FROM orders
 WHERE YEAR(orderDate) = 2003
 -- 12
 SELECT MONTH(orderDate) as Months, count(orderNumber) FROM orders
